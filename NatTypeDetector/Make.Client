@@ -1,0 +1,16 @@
+dir = client
+objects = NatDetectorClient.o NatUtils.o
+
+client_exe : $(objects)
+	cc -o client_exe $(objects)
+
+NatUtils.o : NatUtils.h NatUtils.cpp NatDataDef.h
+	cc -c NatUtils.h NatUtils.cpp NatDataDef.h
+
+NatDetectorClient.o : NatDataDef.h $(dir)/NatDetectorClient.h $(dir)/NatDetectorClient.cpp
+	cc -c NatDataDef.h $(dir)/NatDetectorClient.h $(dir)/NatDetectorClient.cpp
+
+.PHONY : clean
+clean:
+	-rm -f client_exe $(objects)
+
