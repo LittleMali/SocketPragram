@@ -19,7 +19,19 @@ int main(int argc, const char *argv[])
 	if (-1 == ret)
 		return 0;
 
-	ret = HandleNatMsg(sock);
+	char recvBuf[1024] = {0};
+	sockaddr_in clientAddr;
+	memset(&clientAddr, 0, sizeof(clientAddr));
+	socklen_t clientAddrLen = sizeof(clientAddr);
+
+	ret = recvfrom(sock, recvBuf, sizeof(recvBuf), 0, (sockaddr *)&clientAddr, &clientAddrLen);
+	printf("recv : %s", recvBuf);
+	char *pClientIp = inet_ntoa(clientAddr.sin_addr);
+	printf("client ip: %s, port: %d", pClientIp, ntohl(clientAddr.sin_port));
+
+	char sendBuf[1024] = {0};
+	ret = sendto(sock, sendBuf, strlen(sendBuf), 0, (sockaddr *)&clientAddr, sizeof(clientAddr));
+	printf("send ret: %d", ret);
 
 	return 0;
 }

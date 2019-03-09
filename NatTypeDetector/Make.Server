@@ -2,13 +2,13 @@ dir = server
 objects = NatDetectorServer.o NatUtils.o
 
 server_exe : $(objects)
-	c++ -o server_exe $(objects) 
+	g++ -o server_exe $(objects) 
 
 NatDetectorServer.o : NatDataDef.h $(dir)/NatDetectorServer.h $(dir)/NatDetectorServer.cpp
-	c++ -c NatDataDef.h $(dir)/NatDetectorServer.h $(dir)/NatDetectorServer.cpp
+	g++ -c NatDataDef.h $(dir)/NatDetectorServer.h $(dir)/NatDetectorServer.cpp
 
 NatUtils.o : NatUtils.h NatUtils.cpp NatDataDef.h
-	c++ -c NatDataDef.h NatUtils.h NatUtils.cpp 
+	g++ -c NatDataDef.h NatUtils.h NatUtils.cpp 
 
 .PHONY : clean
 clean:
