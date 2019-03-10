@@ -14,6 +14,8 @@
 #define SERVER_IP	"148.70.209.112"
 #define SERVER_PORT	9999
 
+#define MAX_TCP_CONNECT_CNT	2	// 最大允许同时连接的tcp数量
+
 #define NAT_DATA_BUF_LEN	1024
 
 enum NatDataType
