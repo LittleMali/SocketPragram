@@ -120,8 +120,6 @@ void TestTcp()
 			ret = send(peerSock[j], szSendBuf, strlen(szSendBuf), 0);
 			printf("sock(%d) send, ret=%d, szSend=%s\n", peerSock[j], ret, szSendBuf);
 		}
-
-		printf("end for\n");
 	}
 
 	printf("tcp end.\n");
