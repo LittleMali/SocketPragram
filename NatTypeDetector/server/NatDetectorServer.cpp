@@ -22,21 +22,25 @@ int main(int argc, const char *argv[])
 	if (-1 == ret)
 		return 0;
 	printf("bind suc.\n");
-	
+
 	char recvBuf[1024] = {0};
 	sockaddr_in clientAddr;
 	memset(&clientAddr, 0, sizeof(clientAddr));
 	socklen_t clientAddrLen = sizeof(clientAddr);
 
-	ret = recvfrom(sock, recvBuf, sizeof(recvBuf), 0, (sockaddr *)&clientAddr, &clientAddrLen);
-	printf("recv : %s\n", recvBuf);
-	char *pClientIp = inet_ntoa(clientAddr.sin_addr);
-	printf("client ip: %s, port: %d\n", pClientIp, ntohs(clientAddr.sin_port));
+	while (true)
+	{
+		ret = recvfrom(sock, recvBuf, sizeof(recvBuf), 0, (sockaddr *)&clientAddr, &clientAddrLen);
+		printf("recv : %s\n", recvBuf);
+		char *pClientIp = inet_ntoa(clientAddr.sin_addr);
+		printf("client ip: %s, port: %d\n", pClientIp, ntohs(clientAddr.sin_port));
 
-	char sendBuf[1024] = {0};
-	ret = sendto(sock, sendBuf, strlen(sendBuf), 0, (sockaddr *)&clientAddr, sizeof(clientAddr));
-	printf("send ret: %d\n", ret);
-
+		char sendBuf[1024] = {0};
+		sprintf(sendBuf, "ip: %s, port: %d", inet_ntoa(clientAddr.sin_addr), ntohs(clientAddr.sin_port));
+		ret = sendto(sock, sendBuf, strlen(sendBuf), 0, (sockaddr *)&clientAddr, sizeof(clientAddr));
+		printf("send ret: %d\n", ret);
+	}
+	
 	printf("end.\n");
 	return 0;
 }
