@@ -20,15 +20,16 @@ int main(int argc, const char * argv[])
 	
 	char szSend[1024] = "hello world";
 	ssize_t ret = sendto(sock, szSend, strlen(szSend), 0, (sockaddr*)&srvAddr, sizeof(sockaddr_in));
-	printf("sendto, ret=%d.\n", ret);
+	printf("sendto, ret=%lu.\n", ret);
 
 	char szRecv[1024] = {0};
 	sockaddr_in peerAddr;
 	socklen_t nPeerAddrLen = sizeof(sockaddr_in);
 	memset(&peerAddr, 0, sizeof(peerAddr));
-	rret = ecvfrom(sock, szRecv, sizeof(szRecv), 0, (sockaddr*)&peerAddr, &nPeerAddrLen);
+	ret = recvfrom(sock, szRecv, sizeof(szRecv), 0, (sockaddr*)&peerAddr, &nPeerAddrLen);
 	
-	printf("recvfrom, ret=%d, %s\n", ret, szRecv);	
+	printf("recvfrom, ret=%lu, %s\n", ret, szRecv);	
 	
+	printf("end.\n");
 	return 0;
 }

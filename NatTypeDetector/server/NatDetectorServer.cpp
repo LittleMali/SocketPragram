@@ -5,9 +5,12 @@
 
 int main(int argc, const char *argv[])
 {
+	printf("begin.\n");
 	int sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 	if (-1 == sock)
 		return 0;
+
+	printf("socket=%d.\n", sock);
 
 	sockaddr_in srvAddr;
 	memset(&srvAddr, 0, sizeof(srvAddr));
@@ -18,7 +21,8 @@ int main(int argc, const char *argv[])
 	int ret = bind(sock, (sockaddr*)&srvAddr, sizeof(srvAddr));
 	if (-1 == ret)
 		return 0;
-
+	printf("bind suc.\n");
+	
 	char recvBuf[1024] = {0};
 	sockaddr_in clientAddr;
 	memset(&clientAddr, 0, sizeof(clientAddr));
@@ -33,6 +37,7 @@ int main(int argc, const char *argv[])
 	ret = sendto(sock, sendBuf, strlen(sendBuf), 0, (sockaddr *)&clientAddr, sizeof(clientAddr));
 	printf("send ret: %d", ret);
 
+	printf("end.\n");
 	return 0;
 }
 
