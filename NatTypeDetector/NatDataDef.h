@@ -10,7 +10,7 @@
 #include <netdb.h>
 #include <unistd.h>
 
-#define SERVER_IP	"193.112.22.43"
+#define SERVER_IP	"148.70.209.112"
 #define SERVER_PORT	9999
 
 #define NAT_DATA_BUF_LEN	1024
