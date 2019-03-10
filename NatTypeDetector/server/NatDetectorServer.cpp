@@ -29,13 +29,13 @@ int main(int argc, const char *argv[])
 	socklen_t clientAddrLen = sizeof(clientAddr);
 
 	ret = recvfrom(sock, recvBuf, sizeof(recvBuf), 0, (sockaddr *)&clientAddr, &clientAddrLen);
-	printf("recv : %s", recvBuf);
+	printf("recv : %s\n", recvBuf);
 	char *pClientIp = inet_ntoa(clientAddr.sin_addr);
-	printf("client ip: %s, port: %d", pClientIp, ntohl(clientAddr.sin_port));
+	printf("client ip: %s, port: %d\n", pClientIp, ntohs(clientAddr.sin_port));
 
 	char sendBuf[1024] = {0};
 	ret = sendto(sock, sendBuf, strlen(sendBuf), 0, (sockaddr *)&clientAddr, sizeof(clientAddr));
-	printf("send ret: %d", ret);
+	printf("send ret: %d\n", ret);
 
 	printf("end.\n");
 	return 0;
