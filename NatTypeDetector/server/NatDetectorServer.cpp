@@ -89,10 +89,12 @@ void TestTcp()
 		socklen_t peerLen = sizeof(sockaddr_in);
 		memset(&peerAddr, 0, sizeof(peerAddr));
 
-		peerSock[i++] = accept(sock, (sockaddr *)&peerAddr, &peerLen);
+		peerSock[i] = accept(sock, (sockaddr *)&peerAddr, &peerLen);
 		lastErr = errno;
 		printf("accept peerSock=%d, lastErr=%d, peerIp=%s, peerPort=%d\n"
 			, peerSock[i], lastErr, inet_ntoa(peerAddr.sin_addr), ntohs(peerAddr.sin_port));
+
+		++i;
 
 		for (int j = 0; j < i && peerSock[j] != 0; ++j)
 		{
@@ -115,6 +117,8 @@ void TestTcp()
 			ret = send(peerSock[j], szSendBuf, strlen(szSendBuf), 0);
 			printf("sock(%d) send, ret=%d, szSend=%s.\n", peerSock[j], ret, szSendBuf);
 		}
+
+		printf("end for\n");
 	}
 
 	printf("tcp end.\n");

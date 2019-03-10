@@ -74,6 +74,8 @@ void TestTcp()
 
 	for (int i  = 0; i < 10; ++i)
 	{
+		printf("for loop, i=%d\n", i);
+		
 		char szSendBuf[1024] = {0};
 		sprintf(szSendBuf, "send cnt: %d", i);
 
