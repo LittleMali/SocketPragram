@@ -83,18 +83,21 @@ void TestTcp()
 	
 	int peerSock[MAX_TCP_CONNECT_CNT] = {0};
 	int i = 0;
+
+	sockaddr_in peerAddr;
+	socklen_t peerLen = sizeof(sockaddr_in);
+	memset(&peerAddr, 0, sizeof(peerAddr));
+
+	peerSock[i] = accept(sock, (sockaddr *)&peerAddr, &peerLen);
+	lastErr = errno;
+	printf("accept peerSock=%d, lastErr=%d, peerIp=%s, peerPort=%d\n"
+		, peerSock[i], lastErr, inet_ntoa(peerAddr.sin_addr), ntohs(peerAddr.sin_port));
+
+	++i;
+
 	while(true)
 	{
-		sockaddr_in peerAddr;
-		socklen_t peerLen = sizeof(sockaddr_in);
-		memset(&peerAddr, 0, sizeof(peerAddr));
-
-		peerSock[i] = accept(sock, (sockaddr *)&peerAddr, &peerLen);
-		lastErr = errno;
-		printf("accept peerSock=%d, lastErr=%d, peerIp=%s, peerPort=%d\n"
-			, peerSock[i], lastErr, inet_ntoa(peerAddr.sin_addr), ntohs(peerAddr.sin_port));
-
-		++i;
+		
 
 		for (int j = 0; j < i && peerSock[j] != 0; ++j)
 		{
@@ -115,7 +118,7 @@ void TestTcp()
 			char szSendBuf[1024] = {0};
 			sprintf(szSendBuf, "%s--srv append.", szRcvBuf);
 			ret = send(peerSock[j], szSendBuf, strlen(szSendBuf), 0);
-			printf("sock(%d) send, ret=%d, szSend=%s.\n", peerSock[j], ret, szSendBuf);
+			printf("sock(%d) send, ret=%d, szSend=%s\n", peerSock[j], ret, szSendBuf);
 		}
 
 		printf("end for\n");
