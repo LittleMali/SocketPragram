@@ -3,13 +3,22 @@
 #include "../NatDataDef.h"
 #include "NatDetectorClient.h"
 
+void TestUdp();
+void TestTcp();
+
 int main(int argc, const char * argv[])
+{
+	TestTcp();
+	return 0;
+}
+
+void TestUdp()
 {
 	printf("begin.\n");
 
 	int sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 	if (-1 == sock)
-		return 0;
+		return;
 
 	printf("create socket: %d.\n", sock);
 
@@ -21,7 +30,7 @@ int main(int argc, const char * argv[])
 	
 	ssize_t ret = 0;
 	
-	for(int i = 0; i < 10; i++)
+	for(int i = 0; i < 100; i++)
 	{
 		char szSend[1024] = {0};
 		sprintf(szSend, "send data cnt=%d", i);
@@ -35,8 +44,55 @@ int main(int argc, const char * argv[])
 		ret = recvfrom(sock, szRecv, sizeof(szRecv), 0, (sockaddr*)&peerAddr, &nPeerAddrLen);
 		
 		printf("recvfrom, ret=%lu, %s\n", ret, szRecv);	
+
+		sleep(1);
 	}			
 		
 	printf("end.\n");
-	return 0;
+}
+
+void TestTcp()
+{
+	printf("beign.\n");
+
+	int sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	if (-1 == sock)
+		return;
+
+	sockaddr_in srvIp;
+	srvIp.sin_family = AF_INET;
+	srvIp.sin_addr.s_addr = inet_addr(SERVER_IP);
+	srvIp.sin_port = htons(SERVER_PORT);
+
+	int ret = -1;
+	ret = connect(sock, (sockaddr *)&srvIp, sizeof(srvIp));
+	int lastErr = errno;
+	printf("connect ret=%d, lastErr=%d.\n", ret, lastErr);
+
+	if (-1 == ret)
+		return;
+
+	for (int i  = 0; i < 10; ++i)
+	{
+		char szSendBuf[1024] = {0};
+		sprintf(szSendBuf, "send cnt: %d", i);
+
+		ret = send(sock, szSendBuf, strlen(szSendBuf), 0);
+		printf("send ret=%d, %s\n", ret, szSendBuf);
+
+		char szRcvBuf[1024] = {0};
+		ret = recv(sock, szRcvBuf, sizeof(szRcvBuf) - 1, 0);
+		printf("recv ret=%d, %s\n", ret, szRcvBuf);
+
+		if (ret == -1)
+		{
+			// error
+		}
+		else if (ret == 0)
+		{
+			// peer is closed
+		}
+	}
+
+	printf("end.\n");
 }

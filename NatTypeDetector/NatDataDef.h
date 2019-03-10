@@ -9,6 +9,7 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <unistd.h>
+#include <errno.h>
 
 #define SERVER_IP	"148.70.209.112"
 #define SERVER_PORT	9999
