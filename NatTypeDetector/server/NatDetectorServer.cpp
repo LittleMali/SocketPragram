@@ -63,7 +63,7 @@ void TestTcp()
 
 	sockaddr_in srvIp;
 	srvIp.sin_family = AF_INET;
-	srvIp.sin_addr.s_addr = inet_addr(INADDR_ANY);
+	srvIp.sin_addr.s_addr = INADDR_ANY;
 	srvIp.sin_port = htons(SERVER_PORT);
 
 	int ret = -1;
