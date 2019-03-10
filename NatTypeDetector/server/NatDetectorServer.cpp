@@ -70,16 +70,16 @@ void TestTcp()
 	int lastErr = 0;
 
 	ret = bind(sock, (sockaddr *)&srvIp, sizeof(srvIp));
-	printf("bind ret=%d.\n", ret);
+	lastErr = errno;
+	printf("bind ret=%d, lastErr=%d.\n", ret, lastErr);
 	if (-1 == ret)
 		return;
 
 	ret = listen(sock, MAX_TCP_CONNECT_CNT);
-	printf("listen ret=%d.\n", ret);
+	lastErr = errno;
+	printf("listen ret=%d, lastErr=%d.\n", ret, lastErr);
 	if (-1 == ret)
 		return;
-
-	
 	
 	int peerSock[MAX_TCP_CONNECT_CNT] = {0};
 	int i = 0;
