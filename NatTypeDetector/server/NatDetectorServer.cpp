@@ -109,10 +109,9 @@ void TestTcp()
 			peerSock = 0;
 			break;
 		}
-
-		char szSendBuf[1024] = {0};
-		sprintf(szSendBuf, "%s--srv append.", szRcvBuf);
-		ret = send(peerSock, szSendBuf, strlen(szSendBuf), 0);
+		printf("recv ret=%d, szRecv=%s\n", ret, szRcvBuf);
+		
+		ret = send(peerSock, szRcvBuf, ret, 0);
 		printf("sock(%d) send, ret=%d, szSend=%s\n", peerSock, ret, szSendBuf);
 	}
 
