@@ -25,9 +25,6 @@ BOOL CSimplePing::Init()
         return FALSE;
     }
 
-    DWORD dwTimeOut = 1000;
-    CreateSocket(dwTimeOut);
-
     m_dwRecvCnt = 0;
 
     m_socPing = CreateSocket();

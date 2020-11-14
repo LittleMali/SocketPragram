@@ -77,6 +77,8 @@ int _tmain(int argc, _TCHAR* argv[])
 
     oSimplePing.UnInit();
 
+    getchar();
+
 	return 0;
 }
 
